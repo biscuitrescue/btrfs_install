@@ -1,0 +1,3 @@
+alacritty.yml   bleh
+kitty.conf      blehhh
+config.conf     blehhhh
