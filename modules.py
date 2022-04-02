@@ -3,13 +3,13 @@
 from subprocess import run
 
 def install(pkg):
-    cmd="pacman --needed --noconfirm -S "+pkg
+    cmd=f"pacman --needed --noconfirm -S {pkg}"
     run(cmd, shell=True)
 
 def install_all(files):
-    run("pacman --needed --noconfirm --ask 4 -S - < {}".format(files), shell=True)
+    run(f"pacman --needed --noconfirm --ask 4 -S - < {files}", shell=True)
 
-def install_more(pkgs):
+def install_more(pkgs: list):
     with open("packages.txt", "w") as f:
         for i in pkgs:
             f.write(i+'\n')
@@ -33,5 +33,12 @@ def check_installed(pkg):
     return installed
 
 def paru(pkg):
-    cmd="paru -S {}".format(pkg)
+    cmd=f"paru -S --needed {pkg}"
     run(cmd, shell=True)
+
+def disk_check(s):
+    p1 = run("lsblk | grep "+s+" -w | awk '{print $1}'",shell=True,capture_output=True,text=True)
+    if p1.stdout.strip() !='':
+        return True
+    else:
+        return False

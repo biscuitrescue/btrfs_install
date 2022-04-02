@@ -2,18 +2,13 @@
 
 from subprocess import run
 from os.path import exists
+from modules import disk_check
 
 if exists("/sys/firmware/efi"):
     UEFI=True
 else:
     UEFI=False
 
-def disk_check(s):
-    p1 = run("lsblk | grep "+s+" -w | awk '{print $1}'",shell=True,capture_output=True,text=True)
-    if p1.stdout.strip() !='':
-        return True
-    else:
-        return False
 
 while True: 
     disk=input('Disk name [/dev/sdX]: ')
@@ -79,7 +74,7 @@ run(f'mount {disk} /mnt/boot',shell=True )
 run('lsblk')
 
 ### Pacstrap and genfstab ###
-print('Pacstrap...')
+print('Running pacstrap...')
 run('pacstrap /mnt base linux linux-firmware base-devel git python3 ranger btop htop vim wget arch-install-scripts --noconfirm --needed',shell=True)
 run('genfstab -U /mnt >> /mnt/etc/fstab',shell=True)
 print('Pacstrap complete')
