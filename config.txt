@@ -1,0 +1,9 @@
+alacritty.yml   .config/alacritty
+kitty.conf      .config/kitty
+config.conf     .config/neofetch
+config.py       .config/qtile
+keys.py         .config/qtile
+screens.py      .config/qtile
+groups.py       .config/qtile
+icons/          .config/qtile
+autostart.sh    .config/qtile
