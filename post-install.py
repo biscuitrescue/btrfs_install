@@ -15,7 +15,7 @@ def copy_to_config():
     run(cmd, shell=True)
 
 
-with open('config.txt') as f:
+with open('POST-INSTALL/config.txt') as f:
     L = f.readlines()
 
 for i in range(len(L)):
