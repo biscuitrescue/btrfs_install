@@ -1,0 +1,5 @@
+root ALL=(ALL) ALL
+%wheel ALL=(ALL) ALL
+%wheel ALL= NOPASSWD: /usr/bin/systemctl, /usr/bin/swapon, /usr/bin/swapoff, /usr/bin/rfkill 
+Defaults env_reset, pwfeedback
+@includedir /etc/sudoers.d

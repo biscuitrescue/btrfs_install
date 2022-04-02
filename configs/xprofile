@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+nm-applet &
+dunst &
+./.fehbg & 
+checkswap &
+picom --experimental-backends -b &
+xfce-polkit &
+xss-lock --transfer-sleep-lock -- ./.lock.sh --nofork &
+libinput-gestures-setup start &
+xset s 1800 1800 &
+# ./git/scripts/python/cycler &
