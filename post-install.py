@@ -10,9 +10,6 @@ def copy_to_config():
         file_orig=f"configs/{i}"
         file_copy=f"{condict[i]}/{i}"
         copyfile(file_orig, file_copy)
-    username=listdir("/home/")[0]
-    cmd=f"chown -R {username}:{username} /home/{username}/.config/"
-    run(cmd, shell=True)
 
 
 with open('POST-INSTALL/config.txt') as f:
@@ -31,3 +28,8 @@ for i in condict:
         mkdir(condict[i])
 
 copy_to_config()
+
+username=listdir("/home/")[0]
+run(f"chown -R {username}:{username} /home/{username}/.config/", shell=True)
+
+print("Configs have been copied")
