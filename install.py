@@ -83,7 +83,7 @@ with open("/etc/locale.gen", "w") as f:
 run("locale-gen")
 
 with open("/etc/locale.conf", "w") as f:
-    f.write("Lang=en_US.UTF-8 UTF-8\n")
+    f.write("LANG=en_US.UTF-8\n")
 
 print("Locales are done")
 print()
@@ -127,6 +127,9 @@ print()
 
 print("Installing some packages")
 packages=[
+    "f2fs-tools",
+    "xfsprogs",
+    "xfsdump",
     "pipewire",
     "pipewire-pulse",
     "pipewire-alsa",
@@ -146,6 +149,7 @@ packages=[
     "networkmanager",
     "network-manager-applet",
     "xorg-server",
+    "vim",
     "systemd-swap",
 ]
 
@@ -199,6 +203,6 @@ for service in enable:
     run(cmd, shell=True)
 
 print()
-print(f"Base system has been installed\nPlease run paru.sh as {user_name} after rebooting")
+print(f"Base system has been installed\nPlease run post-install.py as {user_name} after rebooting")
 print()
 print("Terminating ...")
