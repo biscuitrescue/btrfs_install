@@ -2,7 +2,7 @@
 
 from subprocess import run
 from os.path import exists
-from modules import disk_check
+from modules import disk_check, check_ssd
 
 while True:
     disk=input('Disk name [/dev/sdX or /dev/nvme0nX]: ')
@@ -17,10 +17,7 @@ while True:
 
 diskfile=f"/sys/block/{disk[5:]}/queue/rotational"
 
-ssd=False
-with open(diskfile) as f:
-    if f.readlines()[0].strip()=='0':
-        ssd=True
+check_ssd(diskfile)
 
 resp=input('''
 This program will completely wipe the disk.

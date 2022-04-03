@@ -3,7 +3,7 @@
 from os.path import exists
 from subprocess import run
 from shutil import copyfile
-from modules import install, install_all, install_more
+from modules import install, install_all, install_more, check_ssd
 
 ### Install packages
 
@@ -184,10 +184,7 @@ else:
 
 diskfile=f"/sys/block/{disk[5:]}/queue/rotational"
 
-ssd=False
-with open(diskfile) as f:
-    if f.readlines()[0].strip()=='0':
-        ssd=True
+check_ssd(diskfile)
 
 enable=[
     "NetworkManager",

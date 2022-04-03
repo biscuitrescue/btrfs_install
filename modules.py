@@ -42,3 +42,7 @@ def disk_check(s):
         return True
     else:
         return False
+
+def check_ssd(disk):
+    with open(diskfile) as f:
+        ssd=True if f.readlines()[0].strip()=='0' else False
