@@ -25,7 +25,7 @@ while True:
         if usb in "nN":
             is_usb=False
             break
-        elif yes_no in "yY":
+        elif usb in "yY":
             is_usb=True
             break
 
@@ -46,7 +46,7 @@ else:
 copyfile("configs/pacman.conf", "/etc/pacman.conf")
 
 user_name=input("Enter your username: ")
-cmd=f"useradd -mG tty,video,audio,lp,input,audio,wheel {user_name}"
+cmd="useradd -mG tty,video,audio,lp,input,audio,wheel {}".format(user_name)
 
 run(cmd, shell=True)
 print()
@@ -105,7 +105,7 @@ print("Configuring Networking ...")
 with open("/etc/hosts", "a") as f:
     f.write("127.0.0.1\t\tlocalhost")
     f.write("::1\t\tlocalhost")
-    f.write(f"127.0.1.1\t\t{host_name}")
+    f.write("127.0.1.1\t\t{}".format(host_name))
 
 print("Network has been configured")
 print()
@@ -140,14 +140,14 @@ print("Installing Grub")
 if is_usb:
     copyfile("configs/mkinitcpio.conf", "/etc/mkinicpio.conf")
     run(["mkinitcpio", "-P"])
-    run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removabel --recheck", shell=True)
-    run(f"grub-install --target=i386-pc {grub_disk}", shell=True)
+    run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable --recheck", shell=True)
+    run("grub-install --target=i386-pc {}".format(grub_disk), shell=True)
 else:
     if UEFI:
         install("efibootmgr")
-        run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removabel --recheck", shell=True)
+        run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable --recheck", shell=True)
     else:
-        run(f"grub-install --target=i386-pc {grub_disk}", shell=True)
+        run("grub-install --target=i386-pc {}".format(grub_disk), shell=True)
 
 run("grub-mkconfig -o /boot/grub/grub.cfg", shell=True)
 
@@ -172,10 +172,10 @@ enable=[
 ]
 
 for service in enable:
-    cmd="systemctl enable {service}"
+    cmd="systemctl enable {}".format(service)
     run(cmd, shell=True)
 
 print()
-print(f"Base system has been installed\nPlease run paru.sh as {user_name} after rebooting")
+print("Base system has been installed\nPlease run paru.sh as {} after rebooting".format(user_name))
 print()
 print("Terminating ...")
