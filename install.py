@@ -195,10 +195,10 @@ if ssd:
     enable.append("fstrim.timer")
 
 for service in enable:
-    cmd="systemctl enable {service}"
+    cmd=f"systemctl enable {service}"
     run(cmd, shell=True)
 
 print()
-print("Base system has been installed\nPlease run paru.sh as {} after rebooting".format(user_name))
+print(f"Base system has been installed\nPlease run paru.sh as {user_name} after rebooting")
 print()
 print("Terminating ...")
