@@ -119,13 +119,11 @@ print()
 print("Installing some packages")
 packages=[
     "grub",
+    "grub-btrfs",
     "dosfstools",
     "mtools",
-    "f2fs-tools",
     "btrfs-progs",
-    "xfsprogs",
     "linux-headers",
-    "xfsdump",
     "ntp",
     "networkmanager",
     "network-manager-applet",

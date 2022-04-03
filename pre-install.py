@@ -4,14 +4,8 @@ from subprocess import run
 from os.path import exists
 from modules import disk_check
 
-if exists("/sys/firmware/efi"):
-    UEFI=True
-else:
-    UEFI=False
-
-
-while True: 
-    disk=input('Disk name [/dev/sdX]: ')
+while True:
+    disk=input('Disk name [/dev/sdX or /dev/nvme0nX]: ')
     if disk_check(disk[5:]):
         print('Disk exists.')
         print()
@@ -20,6 +14,12 @@ while True:
         print('Disk does not exist.')
         print()
         continue
+diskfile=f"/sys/block/{disk[5:]}/queue/rotational"
+
+ssd=False
+with open(diskfile) as f:
+    if f.readlines()[0].strip()=='0':
+        ssd=True
 
 resp=input('''
 This program will completely wipe the disk.
@@ -38,7 +38,7 @@ print()
 
 ### Partitioning ###
 
-print('Creating partitions...') 
+print('Creating partitions...')
 run()
 
 ### Filesystems ###
@@ -62,24 +62,30 @@ run('btrfs subvolume create /mnt/@tmp',shell=True)
 run('umount /mnt',shell=True)
 
 ### Mounting subvolumes ###
-s='mount -o noatime,compress=zstd,space_cache=v2,discard=async,ssd,subvol='
-run(f'{s}@ /mnt',shell=True)
+
+p=""
+if ssd:
+    p="ssd,"
+# p="ssd," if ssd else ""
+s=f'mount -o noatime,compress=zstd,discard=async,{p}subvol='
+
+run(f'{s}@ {part3} /mnt',shell=True)
 dirs=['home','boot','var','tmp']
+
 for i in dirs:
     os.mkdir('/mnt/'+i)
-run(f'{s}@home /mnt/home',shell=True)
-run(f'{s}@var /mnt/var',shell=True)
-run(f'{s}@tmp /mnt/tmp',shell=True)
-run(f'mount {disk} /mnt/boot',shell=True )
+    run(f'{s}@{i} {part3} /mnt/{i}', shell=True)
+
+run(f'mount {part2} /mnt/boot',shell=True )
 run('lsblk')
+print()
 
 ### Pacstrap and genfstab ###
 print('Running pacstrap...')
 run('pacstrap /mnt base linux linux-firmware base-devel git python3 ranger btop htop vim wget arch-install-scripts --noconfirm --needed',shell=True)
 run('genfstab -U /mnt >> /mnt/etc/fstab',shell=True)
+print()
 print('Pacstrap complete')
 print()
 
 print('Install script can be executed.')
-
-
