@@ -5,6 +5,8 @@ from subprocess import run
 from shutil import copyfile
 from modules import install, install_all, install_more
 
+### Install packages
+
 while True:
     yes_no=input("Do you want to install all packages[Y/N]: ")
     if yes_no not in "YyNn":
@@ -16,6 +18,8 @@ while True:
         elif yes_no in "yY":
             waste_of_time=True
             break
+
+### Check for USB
 
 while True:
     usb=input("Are you installing to an external disk?[Y/N]: ")
@@ -79,11 +83,12 @@ with open("/etc/locale.gen", "w") as f:
 run("locale-gen")
 
 with open("/etc/locale.conf", "w") as f:
-    f.write("en_US.UTF-8 UTF-8\n")
+    f.write("Lang=en_US.UTF-8 UTF-8\n")
 
 print("Locales are done")
 print()
 
+### Timezones
 
 print("Configuring Timezones ...")
 run("ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime", shell=True)
@@ -92,8 +97,9 @@ print("Timezones have been configured")
 
 print()
 
-host_name=input("Enter hostname: ")
+### Configuring hostname & network
 
+host_name=input("Enter hostname: ")
 
 with open("/etc/hostname", "w") as f:
     f.write(host_name)
@@ -110,25 +116,39 @@ with open("/etc/hosts", "a") as f:
 print("Network has been configured")
 print()
 
+### Configuring sudo
+
 print("Configuring sudo ...")
 copyfile("configs/sudoers", "/etc/sudoers")
-install("sudo")
 print("Done")
 print()
 
+### Installin packages
+
 print("Installing some packages")
 packages=[
+    "pipewire",
+    "pipewire-pulse",
+    "pipewire-alsa",
+    "pipewire-jack",
+    "wireplumber",
+    "pulseaudio-alsa",
     "grub",
+    "alsa",
+    "alsa-utils",
     "grub-btrfs",
     "dosfstools",
     "mtools",
     "btrfs-progs",
     "linux-headers",
     "ntp",
+    "tlp",
     "networkmanager",
     "network-manager-applet",
     "xorg-server",
+    "systemd-swap",
 ]
+
 print()
 install_more(packages)
 print()
@@ -152,22 +172,28 @@ run("grub-mkconfig -o /boot/grub/grub.cfg", shell=True)
 print("Grub has been configured")
 print()
 
-if waste_of_time:
-    install_all("txt/install.txt")
-    run("usermod -aG vboxusers,libvirt,qemu,kvm "+user_name, shell=True)
+p1 = run("df -h | grep -w / | awk '{print $1}'",shell=True,capture_output=True,text=True)
+if 'nvme' in p1.stdout.strip():
+    disk=p1.stdout.strip()[:-2]
+else:
+    disk=p1.stdout.strip()[:-1]
 
-print()
+diskfile=f"/sys/block/{disk[5:]}/queue/rotational"
 
-install("tlp")
-
-print()
+ssd=False
+with open(diskfile) as f:
+    if f.readlines()[0].strip()=='0':
+        ssd=True
 
 enable=[
-    "tlp",
     "NetworkManager",
-    "fstrim.timer",
+    "cups",
+    "systemd-swap",
     "ntpd",
 ]
+
+if ssd:
+    enable.append("fstrim.timer")
 
 for service in enable:
     cmd="systemctl enable {}".format(service)

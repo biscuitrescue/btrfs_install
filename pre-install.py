@@ -14,6 +14,7 @@ while True:
         print('Disk does not exist.')
         print()
         continue
+
 diskfile=f"/sys/block/{disk[5:]}/queue/rotational"
 
 ssd=False
