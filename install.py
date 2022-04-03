@@ -159,13 +159,13 @@ if is_usb:
     copyfile("configs/mkinitcpio.conf", "/etc/mkinicpio.conf")
     run(["mkinitcpio", "-P"])
     run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable --recheck", shell=True)
-    run("grub-install --target=i386-pc {}".format(grub_disk), shell=True)
+    run(f"grub-install --target=i386-pc {grub_disk}", shell=True)
 else:
     if UEFI:
         install("efibootmgr")
         run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable --recheck", shell=True)
     else:
-        run("grub-install --target=i386-pc {}".format(grub_disk), shell=True)
+        run(f"grub-install --target=i386-pc {grub_disk}", shell=True)
 
 run("grub-mkconfig -o /boot/grub/grub.cfg", shell=True)
 
@@ -187,7 +187,6 @@ with open(diskfile) as f:
 
 enable=[
     "NetworkManager",
-    "cups",
     "systemd-swap",
     "ntpd",
 ]
@@ -196,7 +195,7 @@ if ssd:
     enable.append("fstrim.timer")
 
 for service in enable:
-    cmd="systemctl enable {}".format(service)
+    cmd="systemctl enable {service}"
     run(cmd, shell=True)
 
 print()
