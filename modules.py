@@ -43,7 +43,7 @@ def disk_check(s):
     else:
         return False
 
-def check_ssd(disk):
+def check_ssd():
 
     p1 = run("df -h | grep -w / | awk '{print $1}'",shell=True,capture_output=True,text=True)
     if 'nvme' in p1.stdout.strip():

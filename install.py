@@ -168,7 +168,7 @@ enable=[
     "ntpd",
 ]
 
-if check_ssd(diskfile):
+if check_ssd():
     enable.append("fstrim.timer")
 
 for service in enable:
