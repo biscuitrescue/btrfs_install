@@ -111,7 +111,7 @@ print("Configuring Networking ...")
 with open("/etc/hosts", "a") as f:
     f.write("127.0.0.1\t\tlocalhost")
     f.write("::1\t\tlocalhost")
-    f.write("127.0.1.1\t\t{}".format(host_name))
+    f.write(f"127.0.1.1\t\t{host_name}@localdomain\t\t{host_name}")
 
 print("Network has been configured")
 print()
