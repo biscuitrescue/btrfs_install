@@ -5,7 +5,7 @@ def install(pkg: str):
     run(cmd, shell=True)
 
 def install_more(pkgs: list):
-    for i in range(0,len(x),5):
+    for i in range(0,len(pkgs),5):
         s=packages[i:i+5]
         for i in s:
             s2+=i.strip()+' '
@@ -22,7 +22,7 @@ def paru(pkg: str):
     run(cmd, shell=True)
 
 def paru_more(pkgs: list):
-    for i in range(0,len(x),5):
+    for i in range(0,len(pkgs),5):
         s=packages[i:i+5]
         for i in s:
             s2+=i.strip()+' '
