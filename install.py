@@ -137,6 +137,8 @@ packages=[
     "xorg-server",
     "vim",
     "systemd-swap",
+    "intel-ucode",
+    "amd-ucode",
 ]
 
 print()
