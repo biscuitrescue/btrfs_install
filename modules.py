@@ -2,12 +2,15 @@
 
 from subprocess import run
 
-def install(pkg):
+def install(pkg: str):
     cmd=f"pacman --needed --noconfirm -S {pkg}"
     run(cmd, shell=True)
 
 def install_all(files):
-    run(f"pacman --needed --noconfirm --ask 4 -S - < {files}", shell=True)
+    #run(f"pacman --needed --noconfirm --ask 4 -S - < {files}", shell=True)
+    for i in range(0,len(packages),5):
+        s=packages[i:i+5]
+        install_more(s)
 
 def install_more(pkgs: list):
     with open("packages.txt", "w") as f:
