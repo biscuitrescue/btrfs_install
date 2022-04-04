@@ -5,33 +5,19 @@ from subprocess import run
 from shutil import copyfile
 from modules import install, install_all, install_more, check_ssd
 
-### Install packages
-
-while True:
-    yes_no=input("Do you want to install all packages[Y/N]: ")
-    if yes_no not in "YyNn":
-        print("Invalid response. Please enter again")
-    else:
-        if yes_no in "nN":
-            waste_of_time=False
-            break
-        elif yes_no in "yY":
-            waste_of_time=True
-            break
-
 ### Check for USB
 
 while True:
     usb=input("Are you installing to an external disk?[Y/N]: ")
-    if usb not in "YyNn":
-        print("Invalid response. Please enter again")
+    if usb in "Yy":
+        is_usb=True
+        break
+    elif usb in "Nn":
+        is_usb=False
+        break
     else:
-        if usb in "nN":
-            is_usb=False
-            break
-        elif usb in "yY":
-            is_usb=True
-            break
+        print("Invalid response. Please enter either y or n.")
+        continue
 
 ### Check for UEFI
 
