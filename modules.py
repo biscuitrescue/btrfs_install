@@ -16,7 +16,7 @@ def install_more(pkgs: list):
     install_all("packages.txt")
 
 def paru(pkg):
-    cmd=f"paru -S --needed {pkg}"
+    cmd=f"paru -S --needed --noconfirm {pkg}"
     run(cmd, shell=True)
 
 def disk_check(s):

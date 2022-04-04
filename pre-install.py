@@ -62,7 +62,7 @@ run('umount /mnt',shell=True)
 p=""
 if check_ssd(diskfile):
     p="ssd,"
-# p="ssd," if ssd else ""
+
 s=f'mount -o noatime,compress=zstd,discard=async,{p}subvol='
 
 run(f'{s}@ {part3} /mnt',shell=True)
