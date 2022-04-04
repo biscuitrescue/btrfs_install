@@ -5,6 +5,7 @@ def install(pkg: str):
     run(cmd, shell=True)
 
 def install_more(pkgs: list):
+    s2=''
     for i in range(0,len(pkgs),5):
         s=pkgs[i:i+5]
         for i in s:
@@ -12,7 +13,6 @@ def install_more(pkgs: list):
         install(s2)
 
 def install_all(files):
-    s2=''
     with open(files) as f:
         x=f.readlines()
     install_more(x)
@@ -22,6 +22,7 @@ def paru(pkg: str):
     run(cmd, shell=True)
 
 def paru_more(pkgs: list):
+    s2=''
     for i in range(0,len(pkgs),5):
         s=pkgs[i:i+5]
         for i in s:
@@ -29,7 +30,6 @@ def paru_more(pkgs: list):
         paru(s2)
 
 def paru_all(files):
-    s2=''
     with open(files) as f:
         x=f.readlines()
     paru_more(x)
