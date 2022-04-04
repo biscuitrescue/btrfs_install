@@ -27,6 +27,15 @@ def disk_check(s):
         return False
 
 def check_ssd(disk):
+
+    p1 = run("df -h | grep -w / | awk '{print $1}'",shell=True,capture_output=True,text=True)
+    if 'nvme' in p1.stdout.strip():
+        disk=p1.stdout.strip()[:-2]
+    else:
+        disk=p1.stdout.strip()[:-1]
+
+    diskfile=f"/sys/block/{disk[5:]}/queue/rotational"
+
     with open(diskfile) as f:
         ssd=True if f.readlines()[0].strip()=='0' else False
         return ssd

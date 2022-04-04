@@ -109,7 +109,7 @@ copyfile("configs/sudoers", "/etc/sudoers")
 print("Done")
 print()
 
-### Installin packages
+### Installing packages
 
 print("Installing some packages")
 packages=[
@@ -161,14 +161,6 @@ run("grub-mkconfig -o /boot/grub/grub.cfg", shell=True)
 
 print("Grub has been configured")
 print()
-
-p1 = run("df -h | grep -w / | awk '{print $1}'",shell=True,capture_output=True,text=True)
-if 'nvme' in p1.stdout.strip():
-    disk=p1.stdout.strip()[:-2]
-else:
-    disk=p1.stdout.strip()[:-1]
-
-diskfile=f"/sys/block/{disk[5:]}/queue/rotational"
 
 enable=[
     "NetworkManager",
