@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from subprocess import run
+
 def install(pkg: str):
     cmd=f"pacman --needed --noconfirm -S {pkg}"
     run(cmd, shell=True)
