@@ -50,7 +50,7 @@ else:
 copyfile("configs/pacman.conf", "/etc/pacman.conf")
 
 user_name=input("Enter your username: ")
-cmd="useradd -mG tty,video,audio,lp,input,audio,wheel {}".format(user_name)
+cmd=f"useradd -mG tty,video,audio,lp,input,audio,wheel,network {user_name}"
 
 run(cmd, shell=True)
 print()
