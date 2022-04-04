@@ -8,7 +8,8 @@ def install(pkg: str):
 
 def install_all(files):
     #run(f"pacman --needed --noconfirm --ask 4 -S - < {files}", shell=True)
-    for i in range(0,len(packages),5):
+    
+    for i in range(0,len(),5):
         s=packages[i:i+5]
         install_more(s)
 
