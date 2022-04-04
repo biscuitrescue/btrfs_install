@@ -1,27 +1,38 @@
 #!/usr/bin/env python3
 
-from subprocess import run
-
 def install(pkg: str):
     cmd=f"pacman --needed --noconfirm -S {pkg}"
     run(cmd, shell=True)
 
-def install_all(files):
-    #run(f"pacman --needed --noconfirm --ask 4 -S - < {files}", shell=True)
-    
-    for i in range(0,len(),5):
-        s=packages[i:i+5]
-        install_more(s)
-
 def install_more(pkgs: list):
-    with open("packages.txt", "w") as f:
-        for i in pkgs:
-            f.write(i+'\n')
-    install_all("packages.txt")
+    for i in range(0,len(x),5):
+        s=packages[i:i+5]
+        for i in s:
+            s2+=i.strip()+' '
+        install(s2)
 
-def paru(pkg):
+def install_all(files):
+    s2=''
+    with open(files) as f:
+        x=f.readlines()
+    install_more(x)
+
+def paru(pkg: str):
     cmd=f"paru -S --needed --noconfirm {pkg}"
     run(cmd, shell=True)
+
+def paru_more(pkgs: list):
+    for i in range(0,len(x),5):
+        s=packages[i:i+5]
+        for i in s:
+            s2+=i.strip()+' '
+        paru(s2)
+
+def paru_all(files):
+    s2=''
+    with open(files) as f:
+        x=f.readlines()
+    paru_more(x)
 
 def disk_check(s):
     p1 = run("lsblk | grep "+s+" -w | awk '{print $1}'",shell=True,capture_output=True,text=True)

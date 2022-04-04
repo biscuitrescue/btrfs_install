@@ -3,7 +3,7 @@
 from os.path import exists
 from subprocess import run
 from shutil import copyfile
-from modules import install, install_all, install_more, check_ssd
+from modules import install, install_more, check_ssd
 
 ### Check for USB
 
