@@ -184,15 +184,13 @@ else:
 
 diskfile=f"/sys/block/{disk[5:]}/queue/rotational"
 
-check_ssd(diskfile)
-
 enable=[
     "NetworkManager",
     "systemd-swap",
     "ntpd",
 ]
 
-if ssd:
+if check_ssd(diskfile):
     enable.append("fstrim.timer")
 
 for service in enable:

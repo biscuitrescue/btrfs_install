@@ -17,8 +17,6 @@ while True:
 
 diskfile=f"/sys/block/{disk[5:]}/queue/rotational"
 
-check_ssd(diskfile)
-
 resp=input('''
 This program will completely wipe the disk.
 Are you sure you want to proceed?
@@ -62,7 +60,7 @@ run('umount /mnt',shell=True)
 ### Mounting subvolumes ###
 
 p=""
-if ssd:
+if check_ssd(diskfile):
     p="ssd,"
 # p="ssd," if ssd else ""
 s=f'mount -o noatime,compress=zstd,discard=async,{p}subvol='

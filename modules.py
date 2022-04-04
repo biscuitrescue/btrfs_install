@@ -15,23 +15,6 @@ def install_more(pkgs: list):
             f.write(i+'\n')
     install_all("packages.txt")
 
-def check_installed(pkg):
-    paru=run(
-        "pacman -Qqe",
-        shell=True,
-        capture_output=True,
-        text=True,
-    )
-
-    pkgs=paru.stdout.split()
-
-    if pkg in pkgs:
-        installed=True
-    else:
-        installed=False
-
-    return installed
-
 def paru(pkg):
     cmd=f"paru -S --needed {pkg}"
     run(cmd, shell=True)
@@ -46,3 +29,4 @@ def disk_check(s):
 def check_ssd(disk):
     with open(diskfile) as f:
         ssd=True if f.readlines()[0].strip()=='0' else False
+        return ssd
