@@ -148,7 +148,7 @@ print()
 print("Installing Grub")
 
 if is_usb:
-    copyfile("configs/mkinitcpio.conf", "/etc/mkinicpio.conf")
+    copyfile("configs/mkinitcpio.conf", "/etc/mkinitcpio.conf")
     run(["mkinitcpio", "-P"])
     run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable --recheck", shell=True)
     run(f"grub-install --target=i386-pc {grub_disk}", shell=True)
