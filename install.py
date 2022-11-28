@@ -121,7 +121,6 @@ packages=[
     "pipewire-pulse",
     "pipewire-alsa",
     "pipewire-jack",
-    "pulseaudio-alsa",
     "grub",
     "alsa",
     "alsa-utils",
