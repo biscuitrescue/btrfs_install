@@ -35,6 +35,7 @@ else:
 
 copyfile("configs/pacman.conf", "/etc/pacman.conf")
 
+run("pacman -Syy", shell=True)
 user_name=input("Enter your username: ")
 cmd=f"useradd -mG tty,video,audio,lp,input,audio,wheel,network {user_name}"
 
@@ -114,20 +115,16 @@ print()
 print("Installing some packages")
 packages=[
     "f2fs-tools",
-    "xfsprogs",
-    "xfsdump",
     "wireplumber",
     "pipewire",
     "pipewire-pulse",
     "pipewire-alsa",
     "pipewire-jack",
     "grub",
-    "alsa",
     "alsa-utils",
     "grub-btrfs",
     "dosfstools",
     "mtools",
-    "btrfs-progs",
     "linux-headers",
     "ntp",
     "tlp",
@@ -135,8 +132,7 @@ packages=[
     "network-manager-applet",
     "xorg-server",
     "vim",
-    "systemd-swap",
-    "intel-ucode",
+    "efibootmgr",
     "amd-ucode",
 ]
 
@@ -146,27 +142,15 @@ print()
 
 print("Installing Grub")
 
-if is_usb:
-    install("efibootmgr")
-    copyfile("configs/mkinitcpio.conf", "/etc/mkinitcpio.conf")
-    run(["mkinitcpio", "-P"])
-    run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable --recheck", shell=True)
-    run(f"grub-install --target=i386-pc {grub_disk}", shell=True)
-else:
-    if UEFI:
-        install("efibootmgr")
-        run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable --recheck", shell=True)
-    else:
-        run(f"grub-install --target=i386-pc {grub_disk}", shell=True)
+run("grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable --recheck", shell=True)
 
 run("grub-mkconfig -o /boot/grub/grub.cfg", shell=True)
 
 print("Grub has been configured")
 print()
 
-enable=[
+enable = [
     "NetworkManager",
-    "systemd-swap",
     "ntpd",
 ]
 
@@ -174,7 +158,7 @@ if check_ssd():
     enable.append("fstrim.timer")
 
 for service in enable:
-    cmd=f"systemctl enable {service}"
+    cmd = f"systemctl enable {service}"
     run(cmd, shell=True)
 
 print()
